@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>POKÉMON LOVE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@500;600;700;800&family=Uncial+Antiqua&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <svg class="filters-defs" aria-hidden="true" width="0" height="0">
+    <defs>
+      <filter id="leather-noise" x="0%" y="0%" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch" result="noise" />
+        <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.12 0" in="noise" result="soft" />
+        <feBlend in="SourceGraphic" in2="soft" mode="multiply" />
+      </filter>
+      <filter id="paper-noise" x="0%" y="0%" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="3" stitchTiles="stitch" result="grain" />
+        <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.08 0" in="grain" result="fade" />
+        <feBlend in="SourceGraphic" in2="fade" mode="multiply" />
+      </filter>
+    </defs>
+  </svg>
+  <main class="app" aria-label="Libro Mágico Pokémon Love">
+    <canvas class="cosmos" id="cosmos"></canvas>
+    <div class="nebula"></div>
+    <div class="mist"></div>
+    <div class="petal-field" id="petalField"></div>
+    <div class="spark-field" id="sparkField"></div>
+    <div class="burst-layer" id="burstLayer"></div>
+
+    <section class="experience">
+      <div class="book-wrap">
+        <div class="book" id="book">
+          <div class="book-depth"></div>
+          <p class="spine-label" aria-hidden="true">POKÉMON LOVE</p>
+          <div class="book-fore-edge" aria-hidden="true"></div>
+          <div class="page-turner" aria-hidden="true"></div>
+          <div class="cover-panel" id="coverPanel" data-mode="cover">
+            <div class="ornaments" aria-hidden="true">
+              <span class="corner tl"><i></i><b></b></span>
+              <span class="corner tr"><i></i><b></b></span>
+              <span class="corner bl"><i></i><b></b></span>
+              <span class="corner br"><i></i><b></b></span>
+              <span class="gold-line top"></span>
+              <span class="gold-line bottom"></span>
+              <span class="mini-heart"></span>
+            </div>
+
+            <article class="scene active" data-scene="cover">
+              <div class="scene-glow"></div>
+              <div class="scene-inner">
+                <div class="pokemon p-mew" data-name="Mew"><img alt="Mew" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/151.png"><span class="fallback">Mew</span></div>
+                <div class="pokemon p-sylveon" data-name="Sylveon"><img alt="Sylveon" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/700.png"><span class="fallback">Sylveon</span></div>
+                <div class="pokemon p-gardevoir" data-name="Gardevoir"><img alt="Gardevoir" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/282.png"><span class="fallback">Gardevoir</span></div>
+                <div class="pokemon p-espeon" data-name="Espeon"><img alt="Espeon" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/196.png"><span class="fallback">Espeon</span></div>
+                <div class="pokemon p-pikachu" data-name="Pikachu"><img alt="Pikachu" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"><span class="fallback">Pikachu</span></div>
+                <div class="pokemon p-eevee" data-name="Eevee"><img alt="Eevee" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/133.png"><span class="fallback">Eevee</span></div>
+                <div class="pokemon p-jirachi-cover" data-name="Jirachi"><img alt="Jirachi" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/385.png"><span class="fallback">Jirachi</span></div>
+                <div class="pokemon p-vulpix-cover" data-name="Vulpix"><img alt="Vulpix" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/37.png"><span class="fallback">Vulpix</span></div>
+
+                <div class="cover-content">
+                  <div class="cover-emblem" aria-hidden="true">
+                    <span class="cover-emblem-ring"></span>
+                    <span class="cover-emblem-heart"></span>
+                  </div>
+                  <h1 class="heading hero-title">POKÉMON<br><span class="title-accent">LOVE</span></h1>
+                  <div class="cover-divider" aria-hidden="true"><span></span></div>
+                  <div class="copy cover-copy">
+                    <p>Hay regalos que simplemente se compran...</p>
+                    <p>Pero otros nacen como hechizos: con tiempo, detalles, dedicación y cariño.</p>
+                    <p>Este pequeño universo fue creado para guardar emociones, sonrisas y momentos especiales.</p>
+                    <p>Cada carta conserva una chispa de nuestra historia y un nuevo comienzo en la misma.💘</p>
+                  </div>
+                  <button class="magic-button cover-cta" data-next="story">Abrir Historia ✨</button>
+                </div>
+                <div class="rose-bed rose-bed--cover" aria-hidden="true">
+                  <span class="leaves"></span>
+                  <span class="rose rose-main"><i></i><b></b></span>
+                  <span class="rose rose-bud"></span>
+                  <span class="rose rose-small"></span>
+                </div>
+                <div class="rose-bed rose-bed--cover right" aria-hidden="true">
+                  <span class="leaves"></span>
+                  <span class="rose rose-main"><i></i><b></b></span>
+                  <span class="rose rose-bud"></span>
+                  <span class="rose rose-small"></span>
+                </div>
+              </div>
+            </article>
+
+            <article class="scene" data-scene="story">
+              <div class="scene-glow"></div>
+              <div class="scene-inner">
+                <div class="pokemon story-pokemon-top-left" data-name="Umbreon"><img alt="Umbreon" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/197.png"><span class="fallback">Umbreon</span></div>
+                <div class="pokemon story-pokemon-top-right" data-name="Leafeon"><img alt="Leafeon" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/470.png"><span class="fallback">Leafeon</span></div>
+                <div class="pokemon story-pokemon-left" data-name="Milotic"><img alt="Milotic" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/350.png"><span class="fallback">Milotic</span></div>
+                <div class="pokemon story-pokemon-right" data-name="Celebi"><img alt="Celebi" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/251.png"><span class="fallback">Celebi</span></div>
+                <div class="story-content">
+                  <h2 class="heading section-title">NUESTRA HISTORIA</h2>
+                  <div class="copy">
+                    <p>A veces las historias más bonitas aparecen como magia inesperada.</p>
+                    <p>Pequeños momentos, miradas que se encuentran y palabras que llegan justo a tiempo.</p>
+                    <p>Este libro guarda cada risa, cada locura y cada recuerdo que hemos construido juntos.</p>
+                    <p>Lo imaginé página por página, llenándolo de detalles para que esta experiencia se sintiera hecha solo para ti.</p>
+                    <p>Porque detrás de cada brillo hay tiempo, cariño , dedicacion y emociones reales.</p>
+                    <p>Gracias por ser parte de mi historia. 💘</p>
+                  </div>
+                  <button class="magic-button" data-next="memory">Continuar ✨</button>
+                </div>
+                <div class="rose-bed" aria-hidden="true"><span class="leaves"></span><span class="rose"></span></div>
+                <div class="rose-bed right" aria-hidden="true"><span class="leaves"></span><span class="rose"></span></div>
+              </div>
+            </article>
+
+            <article class="scene" data-scene="memory">
+              <div class="scene-glow"></div>
+              <div class="scene-inner">
+                <div class="memory-layout">
+                  <h2 class="heading section-title">JUEGO MEMORY</h2>
+                  <p class="subtitle">Encuentra todos los pares de cartas</p>
+                  <div class="hud" aria-live="polite">
+                    <div class="hud-card">
+                      <span class="hud-icon">◷</span>
+                      <span><span class="hud-label">Tiempo</span><span class="hud-value" id="timeValue">00:00</span></span>
+                    </div>
+                    <div class="hud-card">
+                      <span class="hud-icon">★</span>
+                      <span><span class="hud-label">Movimientos</span><span class="hud-value" id="movesValue">0</span></span>
+                    </div>
+                    <div class="hud-card">
+                      <span class="hud-icon">♥</span>
+                      <span><span class="hud-label">Pares</span><span class="hud-value" id="pairsValue">0/12</span></span>
+                    </div>
+                  </div>
+                  <div class="memory-grid" id="memoryGrid" aria-label="Juego memory"></div>
+                  <div class="memory-actions">
+                    <button class="magic-button small-button locked" id="memoryNext" data-next="letter">Siguiente Página ✨</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="scene" data-scene="letter">
+              <div class="scene-glow"></div>
+              <div class="scene-inner">
+                <div class="pokemon letter-pokemon-left" data-name="Jirachi"><img alt="Jirachi" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/385.png"><span class="fallback">Jirachi</span></div>
+                <div class="pokemon letter-pokemon-right" data-name="Florges"><img alt="Florges" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/671.png"><span class="fallback">Florges</span></div>
+                <div class="pokemon letter-pokemon-extra" data-name="Audino"><img alt="Audino" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/531.png"><span class="fallback">Audino</span></div>
+                <div class="letter-content">
+                  <h2 class="heading section-title">UNA CARTA PARA TI</h2>
+                  <div class="paper">
+                    <p>Gracias por existir en mi vida.<br>
+                    Gracias por cada momento,<br>
+                    cada sonrisa, cada locura y cada abrazo.<br><br>
+                    Caminar a tu lado ha sido<br>
+                    mi aventura más bonita.<br><br>
+                    Eres mi persona favorita, mi razon de ser,<br>
+                    el amor de mi vida, <br>
+                    la mujer con la quiero pasar el<br>
+                    resto de mi vida y <br>
+                    tener mis hiijos y casarme <br>
+                    mi mejor casualidad.💘 <br>
+                    <span class="signature">—Torres</span></p>
+                  </div>
+                  <button class="magic-button" data-next="reward">Siguiente Página ✨</button>
+                </div>
+                <div class="rose-bed" aria-hidden="true"><span class="leaves"></span><span class="rose"></span></div>
+                <div class="rose-bed right" aria-hidden="true"><span class="leaves"></span><span class="rose"></span></div>
+              </div>
+            </article>
+
+            <article class="scene" data-scene="reward">
+              <div class="scene-glow"></div>
+              <div class="scene-inner">
+                <div class="pokemon reward-pokemon-left" data-name="Togekiss"><img alt="Togekiss" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/468.png"><span class="fallback">Togekiss</span></div>
+                <div class="pokemon reward-pokemon-right" data-name="Dragonair"><img alt="Dragonair" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/148.png"><span class="fallback">Dragonair</span></div>
+                <div class="pokemon reward-pokemon-extra" data-name="Alcremie"><img alt="Alcremie" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/869.png"><span class="fallback">Alcremie</span></div>
+                <div class="reward-content">
+                  <h2 class="heading section-title reward-title">TU RECOMPENSA</h2>
+                  <div class="crystal-heart" aria-hidden="true">
+                    <svg viewBox="0 0 320 292" role="img">
+                      <defs>
+                        <radialGradient id="heartGlow" cx="50%" cy="34%" r="68%">
+                          <stop offset="0%" stop-color="#fff9ff" />
+                          <stop offset="16%" stop-color="#ffacd9" />
+                          <stop offset="48%" stop-color="#ff2f8c" />
+                          <stop offset="82%" stop-color="#9d0a43" />
+                          <stop offset="100%" stop-color="#4b001c" />
+                        </radialGradient>
+                        <linearGradient id="heartFacet" x1="20%" y1="0%" x2="82%" y2="100%">
+                          <stop offset="0%" stop-color="#ffffff" stop-opacity=".7" />
+                          <stop offset="42%" stop-color="#ff7cbd" stop-opacity=".28" />
+                          <stop offset="100%" stop-color="#7b0037" stop-opacity=".52" />
+                        </linearGradient>
+                        <filter id="heartBloom" x="-45%" y="-45%" width="190%" height="190%">
+                          <feGaussianBlur stdDeviation="9" result="blur" />
+                          <feColorMatrix in="blur" type="matrix" values="1 0 0 0 1  0 0.2 0 0 .12  0 0 1 0 .62  0 0 0 .85 0" result="pinkBlur" />
+                          <feMerge>
+                            <feMergeNode in="pinkBlur" />
+                            <feMergeNode in="SourceGraphic" />
+                          </feMerge>
+                        </filter>
+                      </defs>
+                      <path class="heart-aura" d="M160 268C74 196 27 148 27 88C27 46 59 18 99 18C126 18 149 34 160 58C171 34 194 18 221 18C261 18 293 46 293 88C293 148 246 196 160 268Z" />
+                      <path class="heart-main" filter="url(#heartBloom)" d="M160 262C78 193 34 148 34 92C34 53 64 27 101 27C127 27 149 43 160 67C171 43 193 27 219 27C256 27 286 53 286 92C286 148 242 193 160 262Z" />
+                      <path class="heart-facet" d="M160 67L108 122L160 262L212 122Z" />
+                      <path class="heart-facet side left" d="M41 102L108 122L160 262C91 204 49 159 41 102Z" />
+                      <path class="heart-facet side right" d="M279 102L212 122L160 262C229 204 271 159 279 102Z" />
+                      <path class="heart-inner" d="M160 207C121 174 101 153 101 126C101 106 116 92 136 92C148 92 157 99 160 110C163 99 172 92 184 92C204 92 219 106 219 126C219 153 199 174 160 207Z" />
+                      <path class="heart-line" d="M160 67L160 262M108 122L212 122M76 72L108 122M244 72L212 122" />
+                      <circle class="heart-shine one" cx="118" cy="62" r="20" />
+                      <circle class="heart-shine two" cx="217" cy="66" r="16" />
+                    </svg>
+                  </div>
+                  <p class="reward-question">¿Quieres descubrir tu recompensa?</p>
+                  <div class="reward-actions">
+                    <button class="magic-button yes-button" id="yesReward">¡SÍ! 💘</button>
+                    <button class="magic-button secondary" id="noReward">No</button>
+                  </div>
+                </div>
+                <div class="reward-message" id="rewardMessage">
+                  <h3>Recompensa desbloqueada</h3>
+                  <p id="rewardMessageText">Vas a encontrar una nueva parte de nuestra historia juntos, espero que logres disfrutarla. 💖</p>
+                </div>
+                <div class="rose-bed" aria-hidden="true"><span class="leaves"></span><span class="rose"></span></div>
+                <div class="rose-bed right" aria-hidden="true"><span class="leaves"></span><span class="rose"></span></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+      <div class="page-indicator" id="pageIndicator" aria-hidden="true"></div>
+    </section>
+
+    <div class="win-ribbon" id="winRibbon" role="dialog" aria-modal="true" aria-labelledby="winTitle">
+      <h3 id="winTitle">¡Memory completado!</h3>
+      <p>Encontraste todos los pares. La siguiente página ya está abierta.</p>
+      <button class="magic-button small-button" data-next="letter">Continuar ✨</button>
+    </div>
+
+    <div class="vignette"></div>
+  </main>
+  <script src="app.js" defer></script>
+</body>
+</html>
