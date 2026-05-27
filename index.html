@@ -235,8 +235,10 @@
             <article class="scene" data-scene="pdf">
               <div class="scene-glow"></div>
               <div class="scene-inner">
-                <div class="pokemon pdf-pokemon-left" data-name="Mew"><img loading="lazy" decoding="async" alt="Mew" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/151.png"><span class="fallback">Mew</span></div>
-                <div class="pokemon pdf-pokemon-right" data-name="Sylveon"><img loading="lazy" decoding="async" alt="Sylveon" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/700.png"><span class="fallback">Sylveon</span></div>
+                <div class="pokemon pdf-pokemon-top-left" data-name="Chansey"><img loading="lazy" decoding="async" alt="Chansey" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/113.png"><span class="fallback">Chansey</span></div>
+                <div class="pokemon pdf-pokemon-top-right" data-name="Roserade"><img loading="lazy" decoding="async" alt="Roserade" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/407.png"><span class="fallback">Roserade</span></div>
+                <div class="pokemon pdf-pokemon-bottom-left" data-name="Manaphy"><img loading="lazy" decoding="async" alt="Manaphy" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/490.png"><span class="fallback">Manaphy</span></div>
+                <div class="pokemon pdf-pokemon-bottom-right" data-name="Cresselia"><img loading="lazy" decoding="async" alt="Cresselia" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/488.png"><span class="fallback">Cresselia</span></div>
                 <div class="pdf-page">
                   <h2 class="heading section-title pdf-title">TU CARTA SECRETA</h2>
                   <div class="pdf-frame">
@@ -280,8 +282,10 @@
             <article class="scene" data-scene="final">
               <div class="scene-glow"></div>
               <div class="scene-inner">
-                <div class="pokemon final-pokemon-left" data-name="Pikachu"><img loading="lazy" decoding="async" alt="Pikachu" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"><span class="fallback">Pikachu</span></div>
-                <div class="pokemon final-pokemon-right" data-name="Eevee"><img loading="lazy" decoding="async" alt="Eevee" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/133.png"><span class="fallback">Eevee</span></div>
+                <div class="pokemon final-pokemon-top-left" data-name="Clefable"><img loading="lazy" decoding="async" alt="Clefable" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/36.png"><span class="fallback">Clefable</span></div>
+                <div class="pokemon final-pokemon-top-right" data-name="Bellossom"><img loading="lazy" decoding="async" alt="Bellossom" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/182.png"><span class="fallback">Bellossom</span></div>
+                <div class="pokemon final-pokemon-bottom-left" data-name="Delcatty"><img loading="lazy" decoding="async" alt="Delcatty" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/301.png"><span class="fallback">Delcatty</span></div>
+                <div class="pokemon final-pokemon-bottom-right" data-name="Lilligant"><img loading="lazy" decoding="async" alt="Lilligant" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/549.png"><span class="fallback">Lilligant</span></div>
                 <div class="final-page">
                   <h2 class="heading section-title">FIN DE ESTA CARTA</h2>
                   <div class="copy final-copy">
@@ -306,29 +310,28 @@
       <button class="magic-button small-button" data-next="letter">Continuar ✨</button>
     </div>
 
-    <div class="notes-widget" id="notesWidget">
-      <button class="notes-toggle" id="notesToggle" type="button" aria-expanded="false">Notas</button>
-      <div class="notes-tray" id="notesTray" aria-label="Notas de esta pagina">
-        <div class="notes-list" id="notesList"></div>
-        <button class="notes-add" id="notesAdd" type="button">+</button>
-      </div>
-    </div>
-
-    <div class="note-modal" id="noteModal" aria-hidden="true">
-      <div class="note-dialog" role="dialog" aria-modal="true" aria-labelledby="noteModalTitle">
-        <button class="note-close" id="noteClose" type="button" aria-label="Cerrar nota">×</button>
-        <h3 id="noteModalTitle">Nueva nota</h3>
-        <textarea id="noteText" maxlength="220" placeholder="Escribe una nota pequena para esta pagina..."></textarea>
-        <p class="note-read" id="noteRead"></p>
-        <div class="note-actions">
-          <button class="note-delete" id="noteDelete" type="button">Eliminar</button>
-          <button class="note-save" id="noteSave" type="button">Guardar</button>
-        </div>
-      </div>
-    </div>
-
     <div class="vignette"></div>
   </main>
+  <div class="notes-widget" id="notesWidget">
+    <button class="notes-toggle" id="notesToggle" type="button" aria-expanded="false">Notas</button>
+    <div class="notes-tray" id="notesTray" aria-label="Notas de esta pagina">
+      <div class="notes-list" id="notesList"></div>
+      <button class="notes-add" id="notesAdd" type="button">+</button>
+    </div>
+  </div>
+
+  <div class="note-modal" id="noteModal" aria-hidden="true">
+    <div class="note-dialog" role="dialog" aria-modal="true" aria-labelledby="noteModalTitle">
+      <button class="note-close" id="noteClose" type="button" aria-label="Cerrar nota">×</button>
+      <h3 id="noteModalTitle">Nueva nota</h3>
+      <textarea id="noteText" maxlength="220" placeholder="Escribe una nota pequena para esta pagina..."></textarea>
+      <p class="note-read" id="noteRead"></p>
+      <div class="note-actions">
+        <button class="note-delete" id="noteDelete" type="button">Eliminar</button>
+        <button class="note-save" id="noteSave" type="button">Guardar</button>
+      </div>
+    </div>
+  </div>
   <script src="app.js" defer></script>
 </body>
 </html>

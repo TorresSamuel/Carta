@@ -974,6 +974,46 @@
       --op: .84;
     }
 
+    .pdf-pokemon-top-left {
+      --w: clamp(80px, 8vw, 124px);
+      --l: 8%;
+      --t: 13%;
+      --px: -14px;
+      --py: 10px;
+      --rot: -8deg;
+      --delay: -.35s;
+    }
+
+    .pdf-pokemon-top-right {
+      --w: clamp(86px, 8.5vw, 132px);
+      --r: 8%;
+      --t: 12%;
+      --px: 14px;
+      --py: 10px;
+      --dur: 6s;
+      --delay: -.65s;
+    }
+
+    .pdf-pokemon-bottom-left {
+      --w: clamp(82px, 8vw, 128px);
+      --l: 8%;
+      --b: 14%;
+      --px: -14px;
+      --py: 14px;
+      --dur: 5.8s;
+      --delay: -.8s;
+    }
+
+    .pdf-pokemon-bottom-right {
+      --w: clamp(106px, 11vw, 172px);
+      --r: 6%;
+      --b: 12%;
+      --px: 16px;
+      --py: 15px;
+      --dur: 6.3s;
+      --delay: -.55s;
+    }
+
     .after-pokemon-top-left {
       --w: clamp(100px, 10vw, 158px);
       --l: 8%;
@@ -1011,6 +1051,46 @@
       --py: 16px;
       --dur: 6.4s;
       --delay: -.9s;
+    }
+
+    .final-pokemon-top-left {
+      --w: clamp(88px, 9vw, 140px);
+      --l: 9%;
+      --t: 12%;
+      --px: -15px;
+      --py: 10px;
+      --rot: -7deg;
+      --delay: -.35s;
+    }
+
+    .final-pokemon-top-right {
+      --w: clamp(80px, 8vw, 124px);
+      --r: 10%;
+      --t: 13%;
+      --px: 14px;
+      --py: 10px;
+      --dur: 5.9s;
+      --delay: -.65s;
+    }
+
+    .final-pokemon-bottom-left {
+      --w: clamp(92px, 9.5vw, 144px);
+      --l: 10%;
+      --b: 14%;
+      --px: -14px;
+      --py: 15px;
+      --dur: 6.1s;
+      --delay: -.8s;
+    }
+
+    .final-pokemon-bottom-right {
+      --w: clamp(92px, 9.5vw, 150px);
+      --r: 9%;
+      --b: 13%;
+      --px: 15px;
+      --py: 15px;
+      --dur: 6.3s;
+      --delay: -.5s;
     }
 
     .rose-bed {
@@ -3078,7 +3158,10 @@
     .cover-panel[data-mode="interior"] {
       filter: url(#paper-noise);
       background:
-        linear-gradient(90deg, rgba(72, 38, 12, .12), transparent 4%),
+        radial-gradient(circle at 50% -8%, rgba(255, 246, 211, .5), transparent 34%),
+        radial-gradient(circle at 10% 92%, rgba(255, 151, 183, .16), transparent 25%),
+        radial-gradient(circle at 92% 12%, rgba(255, 215, 136, .24), transparent 26%),
+        linear-gradient(90deg, rgba(72, 38, 12, .09), transparent 4%),
         repeating-linear-gradient(
           0deg,
           transparent 0 23px,
@@ -3091,7 +3174,7 @@
         ),
         radial-gradient(circle at 18% 12%, rgba(255, 255, 255, .45), transparent 22%),
         radial-gradient(circle at 88% 88%, rgba(118, 52, 14, .08), transparent 28%),
-        linear-gradient(165deg, #f8ecd0 0%, #edd5a4 42%, #e2c38e 100%);
+        linear-gradient(165deg, #fff2d2 0%, #efd59b 48%, #e4bf80 100%);
       border-color: rgba(139, 88, 42, .45);
       box-shadow:
         inset 10px 0 18px rgba(72, 38, 12, .1),
@@ -3102,7 +3185,7 @@
 
     .cover-panel[data-mode="interior"]::before {
       mix-blend-mode: multiply;
-      opacity: .35;
+      opacity: .28;
       background:
         radial-gradient(circle at 22% 18%, rgba(80, 31, 12, .06) 0 1px, transparent 2px),
         linear-gradient(100deg, transparent, rgba(255, 255, 255, .2) 48%, transparent 54%);
@@ -3211,6 +3294,14 @@
     .cover-panel[data-mode="interior"] .scene-inner::after {
       color: rgba(139, 88, 42, .45);
       text-shadow: none;
+    }
+
+    .cover-panel[data-mode="interior"] .scene-glow {
+      background:
+        radial-gradient(circle at 50% 30%, rgba(255, 212, 143, .2), transparent 42%),
+        radial-gradient(circle at 12% 92%, rgba(255, 115, 157, .16), transparent 24%),
+        radial-gradient(circle at 92% 12%, rgba(255, 205, 96, .18), transparent 24%);
+      filter: blur(10px);
     }
 
     .cover-panel[data-mode="interior"] .cover-content::before,
@@ -5008,11 +5099,12 @@
       position: fixed;
       right: max(16px, env(safe-area-inset-right));
       bottom: max(16px, env(safe-area-inset-bottom));
-      z-index: 70;
+      z-index: 999;
       display: grid;
       justify-items: end;
       gap: 8px;
       font-family: var(--font-ui);
+      pointer-events: auto;
     }
 
     .notes-widget.hidden {
@@ -5244,10 +5336,18 @@
         line-height: 1.32;
       }
 
+      .pdf-pokemon-top-left,
+      .pdf-pokemon-top-right,
+      .pdf-pokemon-bottom-left,
+      .pdf-pokemon-bottom-right,
       .after-pokemon-top-left,
       .after-pokemon-top-right,
       .after-pokemon-bottom-left,
-      .after-pokemon-bottom-right {
+      .after-pokemon-bottom-right,
+      .final-pokemon-top-left,
+      .final-pokemon-top-right,
+      .final-pokemon-bottom-left,
+      .final-pokemon-bottom-right {
         --op: .54;
       }
 
@@ -5271,16 +5371,57 @@
         --b: 8%;
       }
 
+      .pdf-pokemon-top-left {
+        --l: 3%;
+        --t: 12%;
+      }
+
+      .pdf-pokemon-top-right {
+        --r: 3%;
+        --t: 12%;
+      }
+
+      .pdf-pokemon-bottom-left {
+        --l: 3%;
+        --b: 9%;
+      }
+
+      .pdf-pokemon-bottom-right {
+        --r: 2%;
+        --b: 9%;
+      }
+
+      .final-pokemon-top-left {
+        --l: 4%;
+        --t: 12%;
+      }
+
+      .final-pokemon-top-right {
+        --r: 5%;
+        --t: 12%;
+      }
+
+      .final-pokemon-bottom-left {
+        --l: 4%;
+        --b: 9%;
+      }
+
+      .final-pokemon-bottom-right {
+        --r: 4%;
+        --b: 9%;
+      }
+
       .notes-widget {
+        top: max(12px, env(safe-area-inset-top));
         right: max(10px, env(safe-area-inset-right));
-        bottom: max(10px, env(safe-area-inset-bottom));
+        bottom: auto;
       }
 
       .notes-toggle {
-        min-width: 62px;
-        min-height: 32px;
-        padding: 7px 10px;
-        font-size: .7rem;
+        min-width: 64px;
+        min-height: 34px;
+        padding: 8px 11px;
+        font-size: .72rem;
       }
 
       .note-chip,
