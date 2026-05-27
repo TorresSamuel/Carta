@@ -974,6 +974,45 @@
       --op: .84;
     }
 
+    .after-pokemon-top-left {
+      --w: clamp(100px, 10vw, 158px);
+      --l: 8%;
+      --t: 11%;
+      --px: -16px;
+      --py: 10px;
+      --rot: -7deg;
+    }
+
+    .after-pokemon-top-right {
+      --w: clamp(88px, 9vw, 140px);
+      --r: 9%;
+      --t: 9%;
+      --px: 15px;
+      --py: 10px;
+      --dur: 6.2s;
+      --delay: -.45s;
+    }
+
+    .after-pokemon-bottom-left {
+      --w: clamp(76px, 8vw, 118px);
+      --l: 11%;
+      --b: 15%;
+      --px: -14px;
+      --py: 14px;
+      --dur: 5.8s;
+      --delay: -.7s;
+    }
+
+    .after-pokemon-bottom-right {
+      --w: clamp(118px, 12vw, 190px);
+      --r: 6%;
+      --b: 11%;
+      --px: 18px;
+      --py: 16px;
+      --dur: 6.4s;
+      --delay: -.9s;
+    }
+
     .rose-bed {
       position: absolute;
       left: 2.2%;
@@ -4821,5 +4860,432 @@
       .book-wrap[data-page-mode="cover"] .rose-bed--cover .rose-small {
         width: 23px;
         height: 22px;
+      }
+    }
+
+    /* Performance tuning for hosted links and phones. */
+    html[data-device="mobile"] .nebula,
+    html[data-device="mobile"] .mist,
+    html[data-device="tablet"] .mist {
+      animation: none;
+      filter: none;
+    }
+
+    html[data-device="mobile"] .nebula {
+      opacity: .42;
+    }
+
+    html[data-device="mobile"] .mist,
+    html[data-device="tablet"] .mist {
+      opacity: .45;
+    }
+
+    html[data-device="mobile"] .spark {
+      box-shadow: 0 0 8px rgba(255, 117, 189, .7);
+    }
+
+    html[data-device="mobile"] .petal {
+      box-shadow: inset -2px -3px 7px rgba(92, 0, 18, .25);
+    }
+
+    .pdf-page,
+    .afterpdf-content,
+    .final-page {
+      position: relative;
+      z-index: 8;
+      display: grid;
+      justify-items: center;
+      width: min(980px, 88%);
+      max-height: calc(100% - 18px);
+      gap: clamp(10px, 1.4vw, 16px);
+    }
+
+    .pdf-title {
+      margin-bottom: 0;
+      color: #7b1230;
+      text-shadow: 0 1px 0 rgba(255, 248, 230, .72);
+    }
+
+    .afterpdf-content {
+      width: min(760px, 82%);
+    }
+
+    .afterpdf-paper {
+      width: min(680px, 100%);
+      min-height: 0;
+      padding: clamp(28px, 3.6vw, 46px) clamp(30px, 4vw, 54px);
+      font-size: clamp(1rem, 1.24vw, 1.26rem);
+      line-height: 1.46;
+    }
+
+    .afterpdf-paper p {
+      margin: 0 0 .72em;
+    }
+
+    .afterpdf-paper p:last-of-type {
+      margin-bottom: .2em;
+    }
+
+    .pdf-frame {
+      position: relative;
+      width: min(860px, 100%);
+      height: min(560px, 61vh);
+      min-height: 320px;
+      overflow: hidden;
+      border: 1px solid rgba(137, 74, 31, .34);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255, 251, 239, .86), rgba(244, 219, 177, .9)),
+        repeating-linear-gradient(0deg, rgba(124, 74, 30, .08) 0 1px, transparent 1px 24px);
+      box-shadow:
+        0 18px 30px rgba(84, 43, 14, .16),
+        inset 0 0 0 1px rgba(255, 255, 255, .45);
+    }
+
+    .pdf-frame::before {
+      content: "Sube tu archivo recompensa.pdf en esta carpeta";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+      color: rgba(88, 45, 21, .55);
+      font-family: var(--font-ui);
+      font-size: clamp(.9rem, 1.3vw, 1.05rem);
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .pdf-reader {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: transparent;
+    }
+
+    .pdf-fallback {
+      display: grid;
+      place-items: center;
+      height: 100%;
+      padding: 28px;
+      color: var(--ink);
+      font-family: var(--font-ui);
+      text-align: center;
+    }
+
+    .pdf-fallback h3,
+    .pdf-fallback p {
+      margin: 0;
+    }
+
+    .pdf-close {
+      min-width: min(220px, 100%);
+    }
+
+    .final-page {
+      width: min(720px, 84%);
+      padding: clamp(28px, 4vw, 54px);
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 50% 0, rgba(255, 244, 209, .68), transparent 50%),
+        linear-gradient(180deg, rgba(255, 250, 234, .82), rgba(235, 199, 141, .86));
+      color: var(--ink);
+      box-shadow:
+        inset 0 0 0 1px rgba(117, 61, 23, .18),
+        0 20px 38px rgba(84, 43, 14, .16);
+      text-align: center;
+    }
+
+    .final-copy {
+      color: var(--ink);
+      text-shadow: 0 1px 0 rgba(255, 248, 230, .56);
+    }
+
+    .notes-widget {
+      position: fixed;
+      right: max(16px, env(safe-area-inset-right));
+      bottom: max(16px, env(safe-area-inset-bottom));
+      z-index: 70;
+      display: grid;
+      justify-items: end;
+      gap: 8px;
+      font-family: var(--font-ui);
+    }
+
+    .notes-widget.hidden {
+      display: none;
+    }
+
+    .notes-toggle,
+    .notes-add,
+    .note-chip,
+    .note-close,
+    .note-save,
+    .note-delete {
+      border: 0;
+      cursor: pointer;
+      font-family: var(--font-ui);
+    }
+
+    .notes-toggle {
+      min-width: 70px;
+      min-height: 34px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: #fffafc;
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: 0;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, .25), transparent 38%),
+        linear-gradient(135deg, #ff2f81, #8b0b42 62%, #2a0012);
+      box-shadow:
+        0 0 0 2px rgba(246, 202, 99, .35),
+        0 10px 20px rgba(0, 0, 0, .34),
+        0 0 24px rgba(255, 47, 129, .42);
+    }
+
+    .notes-widget.has-notes .notes-toggle::after {
+      content: "";
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      margin-left: 7px;
+      border-radius: 999px;
+      background: var(--gold);
+      box-shadow: 0 0 10px rgba(246, 202, 99, .95);
+      vertical-align: middle;
+    }
+
+    .notes-tray {
+      display: none;
+      align-items: center;
+      gap: 7px;
+      max-width: min(78vw, 360px);
+      padding: 8px;
+      border: 1px solid rgba(246, 202, 99, .38);
+      border-radius: 999px;
+      background: rgba(34, 0, 18, .72);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, .07),
+        0 12px 28px rgba(0, 0, 0, .38);
+      backdrop-filter: blur(12px);
+    }
+
+    .notes-widget.open .notes-tray {
+      display: flex;
+    }
+
+    .notes-list {
+      display: flex;
+      gap: 6px;
+      max-width: 260px;
+      overflow-x: auto;
+      padding: 2px;
+    }
+
+    .note-chip,
+    .notes-add {
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      color: #5b1424;
+      font-weight: 900;
+      background:
+        radial-gradient(circle at 35% 22%, rgba(255, 255, 255, .85), transparent 24%),
+        linear-gradient(145deg, #fff5d8, #f6ca63 56%, #c97c25);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, .55),
+        0 6px 12px rgba(0, 0, 0, .22);
+    }
+
+    .notes-add {
+      color: #fff;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, .22), transparent 35%),
+        linear-gradient(145deg, #ff70b5, #ca145d 58%, #6e062d);
+    }
+
+    .note-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      display: none;
+      place-items: center;
+      padding: 18px;
+      background: rgba(8, 0, 7, .46);
+      backdrop-filter: blur(8px);
+    }
+
+    .note-modal.show {
+      display: grid;
+    }
+
+    .note-dialog {
+      position: relative;
+      width: min(420px, 92vw);
+      padding: 28px;
+      border: 1px solid rgba(246, 202, 99, .52);
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 50% 0, rgba(255, 246, 211, .8), transparent 42%),
+        linear-gradient(180deg, #fff4d6, #edc783);
+      color: var(--ink);
+      box-shadow:
+        0 24px 50px rgba(0, 0, 0, .48),
+        inset 0 0 0 1px rgba(255, 255, 255, .45);
+    }
+
+    .note-dialog h3 {
+      margin: 0 34px 14px 0;
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      color: #641024;
+    }
+
+    .note-close {
+      position: absolute;
+      right: 14px;
+      top: 12px;
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      color: #fff;
+      background: #7a1234;
+      font-size: 1.35rem;
+      line-height: 1;
+    }
+
+    #noteText {
+      width: 100%;
+      min-height: 130px;
+      resize: vertical;
+      padding: 14px;
+      border: 1px solid rgba(113, 57, 25, .28);
+      border-radius: 12px;
+      outline: none;
+      color: var(--ink);
+      background: rgba(255, 251, 239, .82);
+      font: 600 1rem/1.45 var(--font-ui);
+      box-shadow: inset 0 2px 10px rgba(89, 43, 15, .08);
+    }
+
+    .note-read {
+      min-height: 120px;
+      margin: 0;
+      padding: 18px;
+      border-radius: 12px;
+      color: var(--ink);
+      background: rgba(255, 251, 239, .66);
+      font: 600 1rem/1.5 var(--font-ui);
+      white-space: pre-wrap;
+    }
+
+    .note-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .note-save,
+    .note-delete {
+      min-height: 38px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      font-size: .82rem;
+      font-weight: 800;
+    }
+
+    .note-save {
+      color: #fff;
+      background: linear-gradient(135deg, #e92b7b, #821039);
+      box-shadow: 0 8px 18px rgba(111, 5, 43, .28);
+    }
+
+    .note-delete {
+      color: #6c2730;
+      background: rgba(255, 255, 255, .52);
+    }
+
+    @media (max-width: 560px) {
+      .pdf-page,
+      .afterpdf-content,
+      .final-page {
+        width: min(100%, 292px);
+        gap: 8px;
+      }
+
+      .pdf-frame {
+        height: min(500px, 58vh);
+        min-height: 300px;
+      }
+
+      .pdf-frame::before {
+        padding: 18px;
+        font-size: .76rem;
+      }
+
+      .final-page {
+        padding: 22px 16px;
+      }
+
+      .afterpdf-paper {
+        padding: 22px 15px;
+        font-size: clamp(.74rem, 3.1vw, .86rem);
+        line-height: 1.32;
+      }
+
+      .after-pokemon-top-left,
+      .after-pokemon-top-right,
+      .after-pokemon-bottom-left,
+      .after-pokemon-bottom-right {
+        --op: .54;
+      }
+
+      .after-pokemon-top-left {
+        --l: 3%;
+        --t: 12%;
+      }
+
+      .after-pokemon-top-right {
+        --r: 3%;
+        --t: 12%;
+      }
+
+      .after-pokemon-bottom-left {
+        --l: 4%;
+        --b: 10%;
+      }
+
+      .after-pokemon-bottom-right {
+        --r: 2%;
+        --b: 8%;
+      }
+
+      .notes-widget {
+        right: max(10px, env(safe-area-inset-right));
+        bottom: max(10px, env(safe-area-inset-bottom));
+      }
+
+      .notes-toggle {
+        min-width: 62px;
+        min-height: 32px;
+        padding: 7px 10px;
+        font-size: .7rem;
+      }
+
+      .note-chip,
+      .notes-add {
+        width: 30px;
+        height: 30px;
       }
     }

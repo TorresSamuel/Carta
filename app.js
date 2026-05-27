@@ -16,6 +16,8 @@ const root = document.documentElement;
     const mobileQuery = window.matchMedia("(max-width: 680px)");
     const tabletQuery = window.matchMedia("(max-width: 1040px)");
     const rewardPdfPath = "recompensa.pdf";
+    const isLowPowerDevice = () => root.dataset.device === "mobile" || root.dataset.device === "tablet";
+    const notesStorageKey = "pokemon-love-page-notes";
 
     const pokemon = {
       mew: {
@@ -82,6 +84,11 @@ const root = document.documentElement;
     let pairs = 0;
     let lockBoard = false;
     let flipped = [];
+    let cosmosFrameId = null;
+    let lastCosmosFrame = 0;
+    let notesOpen = false;
+    let selectedNote = null;
+    let pageNotes = loadNotes();
 
     function setDeviceMode() {
       const widthNow = window.innerWidth;
@@ -135,7 +142,8 @@ const root = document.documentElement;
     ];
 
     function resizeCanvas() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dprCap = root.dataset.device === "mobile" ? 1 : root.dataset.device === "tablet" ? 1.25 : 1.5;
+      const dpr = Math.min(window.devicePixelRatio || 1, dprCap);
       width = window.innerWidth;
       height = window.innerHeight;
       canvas.width = Math.floor(width * dpr);
@@ -151,8 +159,9 @@ const root = document.documentElement;
     }
 
     function createCosmos() {
-      const starCount = Math.floor(Math.min(260, Math.max(120, width * height / 7200)));
-      const dustCount = Math.floor(starCount * .24);
+      const scale = root.dataset.device === "mobile" ? .45 : root.dataset.device === "tablet" ? .65 : 1;
+      const starCount = Math.floor(Math.min(210, Math.max(70, width * height / 9800)) * scale);
+      const dustCount = Math.floor(starCount * (isLowPowerDevice() ? .12 : .2));
       stars = Array.from({ length: starCount }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -160,7 +169,8 @@ const root = document.documentElement;
         alpha: random(.25, .95),
         twinkle: random(.005, .026),
         phase: random(0, Math.PI * 2),
-        drift: random(.02, .18)
+        drift: random(.02, .18),
+        warm: Math.floor(random(210, 245))
       }));
       dust = Array.from({ length: dustCount }, () => ({
         x: Math.random() * width,
@@ -173,6 +183,7 @@ const root = document.documentElement;
     }
 
     function drawNebula(t) {
+      if (isLowPowerDevice()) return;
       for (const cloud of dust) {
         const x = cloud.x + Math.cos(t * .00016 + cloud.phase) * 18;
         const y = cloud.y + Math.sin(t * .00018 + cloud.phase) * 14;
@@ -192,9 +203,9 @@ const root = document.documentElement;
         const pulse = .55 + Math.sin(t * star.twinkle + star.phase) * .45;
         const x = (star.x + t * .004 * star.drift) % width;
         const y = star.y + Math.sin(t * .0004 + star.phase) * 2;
-        ctx.fillStyle = `rgba(255, ${Math.floor(random(210, 245))}, 245, ${star.alpha * pulse})`;
+        ctx.fillStyle = `rgba(255, ${star.warm}, 245, ${star.alpha * pulse})`;
         ctx.shadowColor = "rgba(255, 63, 150, .9)";
-        ctx.shadowBlur = 9 * pulse;
+        ctx.shadowBlur = isLowPowerDevice() ? 0 : 9 * pulse;
         ctx.beginPath();
         ctx.arc(x, y, star.r * (1 + pulse * .38), 0, Math.PI * 2);
         ctx.fill();
@@ -203,6 +214,7 @@ const root = document.documentElement;
     }
 
     function drawConstellation(template, t) {
+      if (root.dataset.device === "mobile") return;
       const base = Math.min(width, height) * .0024 * template.scale;
       const driftX = Math.sin(t * .00023 + template.anchor.x * 9) * 16;
       const driftY = Math.cos(t * .00021 + template.anchor.y * 7) * 12;
@@ -250,6 +262,16 @@ const root = document.documentElement;
     }
 
     function animateCosmos(t = 0) {
+      const targetFrameTime = isLowPowerDevice() ? 66 : 33;
+      if (document.hidden && !prefersReduced) {
+        cosmosFrameId = null;
+        return;
+      }
+      if (!prefersReduced && t - lastCosmosFrame < targetFrameTime) {
+        cosmosFrameId = requestAnimationFrame(animateCosmos);
+        return;
+      }
+      lastCosmosFrame = t;
       ctx.clearRect(0, 0, width, height);
       ctx.globalCompositeOperation = "lighter";
       drawNebula(t);
@@ -257,13 +279,14 @@ const root = document.documentElement;
       constellationTemplates.forEach((template) => drawConstellation(template, t));
       ctx.globalCompositeOperation = "source-over";
       if (!prefersReduced) {
-        requestAnimationFrame(animateCosmos);
+        cosmosFrameId = requestAnimationFrame(animateCosmos);
       }
     }
 
     function createAtmosphere() {
-      const petalCount = Math.min(52, Math.max(28, Math.floor(window.innerWidth / 25)));
-      const sparkCount = Math.min(70, Math.max(34, Math.floor(window.innerWidth / 21)));
+      const atmosphereScale = root.dataset.device === "mobile" ? .36 : root.dataset.device === "tablet" ? .55 : 1;
+      const petalCount = Math.floor(Math.min(52, Math.max(28, Math.floor(window.innerWidth / 25))) * atmosphereScale);
+      const sparkCount = Math.floor(Math.min(70, Math.max(34, Math.floor(window.innerWidth / 21))) * atmosphereScale);
 
       petalField.innerHTML = "";
       sparkField.innerHTML = "";
@@ -299,6 +322,118 @@ const root = document.documentElement;
         dot.className = `dot${scene === activeScene ? " active" : ""}`;
         indicator.appendChild(dot);
       });
+    }
+
+    function loadNotes() {
+      try {
+        return JSON.parse(localStorage.getItem(notesStorageKey)) || {};
+      } catch {
+        return {};
+      }
+    }
+
+    function saveNotes() {
+      localStorage.setItem(notesStorageKey, JSON.stringify(pageNotes));
+    }
+
+    function getCurrentNotes() {
+      return pageNotes[activeScene] || [];
+    }
+
+    function renderNotes() {
+      const list = document.getElementById("notesList");
+      if (!list) return;
+      const widget = document.getElementById("notesWidget");
+      if (widget) {
+        widget.classList.toggle("hidden", activeScene === "cover");
+      }
+      const notes = getCurrentNotes();
+      list.innerHTML = "";
+      widget?.classList.toggle("has-notes", notes.length > 0);
+
+      notes.forEach((note, index) => {
+        const button = document.createElement("button");
+        button.className = "note-chip";
+        button.type = "button";
+        button.textContent = `${index + 1}`;
+        button.setAttribute("aria-label", `Leer nota ${index + 1}`);
+        button.addEventListener("click", () => openNote(note.id));
+        list.appendChild(button);
+      });
+    }
+
+    function setNotesOpen(open) {
+      notesOpen = open;
+      document.getElementById("notesWidget")?.classList.toggle("open", open);
+      document.getElementById("notesToggle")?.setAttribute("aria-expanded", String(open));
+    }
+
+    function openNote(id = null) {
+      selectedNote = id;
+      const note = id ? getCurrentNotes().find((item) => item.id === id) : null;
+      const modal = document.getElementById("noteModal");
+      const title = document.getElementById("noteModalTitle");
+      const text = document.getElementById("noteText");
+      const read = document.getElementById("noteRead");
+      const save = document.getElementById("noteSave");
+      const remove = document.getElementById("noteDelete");
+      if (!modal || !title || !text || !read || !save || !remove) return;
+
+      title.textContent = note ? "Nota guardada" : "Nueva nota";
+      text.value = note?.text || "";
+      read.textContent = note?.text || "";
+      text.hidden = Boolean(note);
+      read.hidden = !note;
+      save.textContent = note ? "Editar" : "Guardar";
+      remove.hidden = !note;
+      modal.classList.add("show");
+      modal.setAttribute("aria-hidden", "false");
+      if (!note) text.focus();
+    }
+
+    function closeNote() {
+      document.getElementById("noteModal")?.classList.remove("show");
+      document.getElementById("noteModal")?.setAttribute("aria-hidden", "true");
+      selectedNote = null;
+    }
+
+    function saveCurrentNote() {
+      const text = document.getElementById("noteText");
+      const read = document.getElementById("noteRead");
+      if (!text || !read) return;
+
+      const existing = selectedNote ? getCurrentNotes().find((note) => note.id === selectedNote) : null;
+      if (existing && text.hidden) {
+        text.hidden = false;
+        read.hidden = true;
+        text.value = existing.text;
+        text.focus();
+        document.getElementById("noteSave").textContent = "Guardar";
+        return;
+      }
+
+      const value = text.value.trim();
+      if (!value) return;
+      const notes = [...getCurrentNotes()];
+      if (selectedNote) {
+        const index = notes.findIndex((note) => note.id === selectedNote);
+        if (index >= 0) notes[index] = { ...notes[index], text: value };
+      } else {
+        notes.push({ id: `${Date.now()}-${Math.random().toString(16).slice(2)}`, text: value });
+      }
+      pageNotes[activeScene] = notes.slice(-8);
+      saveNotes();
+      renderNotes();
+      setNotesOpen(true);
+      closeNote();
+    }
+
+    function deleteCurrentNote() {
+      if (!selectedNote) return;
+      pageNotes[activeScene] = getCurrentNotes().filter((note) => note.id !== selectedNote);
+      saveNotes();
+      renderNotes();
+      closeNote();
     }
 
     function updatePanelMode(name) {
@@ -341,6 +476,7 @@ const root = document.documentElement;
       }
       document.getElementById("winRibbon").classList.remove("show");
       renderIndicator();
+      renderNotes();
       if (name === "memory" && !memoryStarted) {
         resetMemory();
       }
@@ -517,7 +653,7 @@ const root = document.documentElement;
           <span class="memory-card-inner">
             <span class="card-face card-back"></span>
             <span class="card-face card-front">
-              <img alt="${data.name}" src="${data.img}">
+              <img alt="${data.name}" src="${data.img}" loading="lazy" decoding="async">
               <span>${data.name}</span>
             </span>
           </span>
@@ -594,17 +730,32 @@ const root = document.documentElement;
       document.getElementById("yesReward").addEventListener("click", (event) => {
         const rect = event.currentTarget.getBoundingClientRect();
         const messageText = document.getElementById("rewardMessageText");
-        messageText.textContent = "Abriendo tu recompensa...";
+        messageText.textContent = "Abriendo tu recompensa dentro del libro...";
         document.getElementById("rewardMessage").classList.add("show");
         createBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 72, 520);
         playTone(932, .12, "sine", .04);
         setTimeout(() => playTone(1244, .18, "sine", .035), 120);
         setTimeout(() => {
-          const opened = window.open(rewardPdfPath, "_blank", "noopener");
-          if (!opened) {
-            messageText.textContent = "Tu navegador bloqueó la apertura automática. Cuando agregues el PDF, estará listo como recompensa.pdf.";
-          }
+          document.getElementById("rewardMessage").classList.remove("show");
+          goToScene("pdf");
         }, 520);
+      });
+
+      document.getElementById("closeBookFinal")?.addEventListener("click", () => {
+        resetExperience();
+      });
+
+      document.getElementById("notesToggle")?.addEventListener("click", () => {
+        setNotesOpen(!notesOpen);
+      });
+
+      document.getElementById("notesAdd")?.addEventListener("click", () => openNote());
+      document.getElementById("noteClose")?.addEventListener("click", closeNote);
+      document.getElementById("noteSave")?.addEventListener("click", saveCurrentNote);
+      document.getElementById("noteDelete")?.addEventListener("click", deleteCurrentNote);
+
+      document.getElementById("noteModal")?.addEventListener("click", (event) => {
+        if (event.target.id === "noteModal") closeNote();
       });
 
       document.getElementById("noReward").addEventListener("click", (event) => {
@@ -624,6 +775,7 @@ const root = document.documentElement;
       });
 
       window.addEventListener("pointermove", (event) => {
+        if (coarsePointerQuery.matches) return;
         const x = (event.clientX / window.innerWidth - .5) * 2;
         const y = (event.clientY / window.innerHeight - .5) * 2;
         root.style.setProperty("--mx", x.toFixed(3));
@@ -634,6 +786,13 @@ const root = document.documentElement;
         setDeviceMode();
         resizeCanvas();
         createAtmosphere();
+      });
+
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden && !prefersReduced && !cosmosFrameId) {
+          lastCosmosFrame = 0;
+          cosmosFrameId = requestAnimationFrame(animateCosmos);
+        }
       });
 
       window.addEventListener("hashchange", () => {
@@ -652,13 +811,13 @@ const root = document.documentElement;
     renderIndicator();
     wireEvents();
     updateFolios("cover");
+    renderNotes();
     const initialScene = location.hash.replace("#", "");
     if (sceneOrder.includes(initialScene) && initialScene !== "cover") {
-      if (prefersReduced) {
-        applyScene(initialScene);
-        createBurst(window.innerWidth / 2, window.innerHeight / 2, 16, 400);
-      } else {
-        goToScene(initialScene);
-      }
+      applyScene(initialScene);
     }
-    animateCosmos();
+    if (!prefersReduced) {
+      cosmosFrameId = requestAnimationFrame(animateCosmos);
+    } else {
+      animateCosmos();
+    }
