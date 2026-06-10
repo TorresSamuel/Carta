@@ -5024,8 +5024,8 @@
 
     .pdf-frame {
       position: relative;
-      width: min(100%, 52.55vh, 520px);
-      aspect-ratio: 8.5 / 11;
+      width: min(100%, 49.5vh, 500px);
+      aspect-ratio: 595.5 / 842.25;
       min-height: 0;
       overflow: hidden;
       border: 1px solid rgba(137, 74, 31, .34);
@@ -5322,7 +5322,7 @@
       }
 
       .pdf-frame {
-        width: min(100%, 44.82vh, 292px);
+        width: min(100%, 42.45vh, 292px);
       }
 
       .pdf-frame::before {

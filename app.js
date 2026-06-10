@@ -16,6 +16,7 @@ const root = document.documentElement;
     const mobileQuery = window.matchMedia("(max-width: 680px)");
     const tabletQuery = window.matchMedia("(max-width: 1040px)");
     const rewardPdfPath = "recompensa.pdf";
+    const pdfReader = document.querySelector(".pdf-reader");
     const isLowPowerDevice = () => root.dataset.device === "mobile" || root.dataset.device === "tablet";
     const notesStorageKey = "pokemon-love-page-notes";
 
@@ -159,7 +160,7 @@ const root = document.documentElement;
     }
 
     function createCosmos() {
-      const scale = root.dataset.device === "mobile" ? .45 : root.dataset.device === "tablet" ? .65 : 1;
+      const scale = root.dataset.device === "mobile" ? .32 : root.dataset.device === "tablet" ? .5 : .82;
       const starCount = Math.floor(Math.min(210, Math.max(70, width * height / 9800)) * scale);
       const dustCount = Math.floor(starCount * (isLowPowerDevice() ? .12 : .2));
       stars = Array.from({ length: starCount }, () => ({
@@ -284,7 +285,7 @@ const root = document.documentElement;
     }
 
     function createAtmosphere() {
-      const atmosphereScale = root.dataset.device === "mobile" ? .36 : root.dataset.device === "tablet" ? .55 : 1;
+      const atmosphereScale = root.dataset.device === "mobile" ? .24 : root.dataset.device === "tablet" ? .42 : .72;
       const petalCount = Math.floor(Math.min(52, Math.max(28, Math.floor(window.innerWidth / 25))) * atmosphereScale);
       const sparkCount = Math.floor(Math.min(70, Math.max(34, Math.floor(window.innerWidth / 21))) * atmosphereScale);
 
@@ -464,6 +465,17 @@ const root = document.documentElement;
       });
     }
 
+    function syncPdfReader(name) {
+      if (!pdfReader) return;
+      if (name === "pdf" && !pdfReader.getAttribute("src")) {
+        pdfReader.setAttribute("src", pdfReader.dataset.src || rewardPdfPath);
+        return;
+      }
+      if (name !== "pdf" && pdfReader.getAttribute("src")) {
+        pdfReader.removeAttribute("src");
+      }
+    }
+
     function applyScene(name) {
       activeScene = name;
       scenes.forEach((scene) => {
@@ -471,6 +483,7 @@ const root = document.documentElement;
       });
       updatePanelMode(name);
       updateFolios(name);
+      syncPdfReader(name);
       if (location.hash !== `#${name}`) {
         history.replaceState(null, "", `#${name}`);
       }
